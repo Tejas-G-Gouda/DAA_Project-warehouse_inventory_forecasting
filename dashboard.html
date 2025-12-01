@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - InvenForecast</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body class="dark-mode">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>InvenForecast</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="algorithms.html">Algorithms</a></li>
+                <li><a href="#" class="btn-outline" onclick="logout(); return false;">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass">
+            <div class="sidebar-header">
+                <h3>Menu</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+                <a href="upload.html" class="nav-item">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    Upload Data
+                </a>
+                <a href="#search-section" class="nav-item">
+                    <i class="fas fa-search"></i>
+                    Fast Search
+                </a>
+                <a href="#forecast-section" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Forecast Trends
+                </a>
+                <a href="#alerts-section" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    Shortage Alerts
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="dashboard-header">
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                    <input type="date" class="date-picker" id="datePicker">
+                    <button class="btn-icon" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="btn-icon" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <section class="stats-grid">
+                <div class="stat-card glass">
+                    <div class="stat-icon total-items">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Items</h3>
+                        <p class="stat-value">2,847</p>
+                        <span class="stat-change positive">+12% from last month</span>
+                    </div>
+                </div>
+
+                <div class="stat-card glass">
+                    <div class="stat-icon shortage">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Items in Shortage</h3>
+                        <p class="stat-value">34</p>
+                        <span class="stat-change negative">-8% action needed</span>
+                    </div>
+                </div>
+
+                <div class="stat-card glass">
+                    <div class="stat-icon accuracy">
+                        <i class="fas fa-target"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Forecast Accuracy</h3>
+                        <p class="stat-value">94.2%</p>
+                        <span class="stat-change positive">+2.1% improvement</span>
+                    </div>
+                </div>
+
+                <div class="stat-card glass">
+                    <div class="stat-icon updated">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Last Updated</h3>
+                        <p class="stat-value">2 hours</p>
+                        <span class="stat-change">Auto-refresh every 30 min</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search Section -->
+            <section id="search-section" class="search-section glass">
+                <div class="section-header">
+                    <h2>Fast Search</h2>
+                    <span class="section-icon">⚡</span>
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search items by name, ID, or category..." autocomplete="off">
+                    <i class="fas fa-search search-icon"></i>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="search-results" id="searchResults"></div>
+            </section>
+
+            <!-- Forecast Trends -->
+            <section id="forecast-section" class="forecast-section glass">
+                <div class="section-header">
+                    <h2>Forecast Trends</h2>
+                    <div class="forecast-controls">
+                        <button class="forecast-btn active" data-days="7">7 Days</button>
+                        <button class="forecast-btn" data-days="30">30 Days</button>
+                        <button class="forecast-btn" data-days="90">90 Days</button>
+                    </div>
+                </div>
+                <canvas id="forecastChart" height="80"></canvas>
+            </section>
+
+            <!-- Shortage Heatmap -->
+            <section id="alerts-section" class="alerts-section glass">
+                <div class="section-header">
+                    <h2>Shortage Heatmap</h2>
+                    <span class="section-icon">🔥</span>
+                </div>
+                <div class="heatmap-container">
+                    <canvas id="heatmapChart" height="80"></canvas>
+                </div>
+            </section>
+
+            <!-- Recent Items Table -->
+            <section class="items-table glass">
+                <div class="section-header">
+                    <h2>Recent Items</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Current Stock</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsTableBody">
+                        <tr>
+                            <td>#SKU001</td>
+                            <td>Industrial Motor</td>
+                            <td>Machinery</td>
+                            <td>45</td>
+                            <td><span class="status optimal">Optimal</span></td>
+                            <td><button class="btn-small">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>#SKU002</td>
+                            <td>Steel Bearing</td>
+                            <td>Components</td>
+                            <td>8</td>
+                            <td><span class="status critical">Critical</span></td>
+                            <td><button class="btn-small critical-btn">Reorder</button></td>
+                        </tr>
+                        <tr>
+                            <td>#SKU003</td>
+                            <td>Copper Wire</td>
+                            <td>Materials</td>
+                            <td>156</td>
+                            <td><span class="status optimal">Optimal</span></td>
+                            <td><button class="btn-small">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>#SKU004</td>
+                            <td>Hydraulic Pump</td>
+                            <td>Machinery</td>
+                            <td>12</td>
+                            <td><span class="status warning">Warning</span></td>
+                            <td><button class="btn-small">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>#SKU005</td>
+                            <td>Rubber Gasket</td>
+                            <td>Components</td>
+                            <td>287</td>
+                            <td><span class="status optimal">Optimal</span></td>
+                            <td><button class="btn-small">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/charts.js"></script>
+</body>
+</html>

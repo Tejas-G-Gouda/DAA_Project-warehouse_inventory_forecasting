@@ -1,0 +1,434 @@
+/* ===================== ANIMATIONS ===================== */
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes scale-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes slide-in-down {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-up {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-left {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(58, 184, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(58, 184, 255, 0.6);
+    }
+}
+
+@keyframes neon-flicker {
+    0%, 100% {
+        text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+    }
+    50% {
+        text-shadow: 0 0 20px var(--neon-purple), 0 0 40px var(--neon-purple);
+    }
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes loading-dots {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ===================== ANIMATION CLASSES ===================== */
+
+.animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+}
+
+.animate-slide-in-down {
+    animation: slide-in-down 0.5s ease-out;
+}
+
+.animate-slide-in-up {
+    animation: slide-in-up 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+    animation: slide-in-left 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+    animation: slide-in-right 0.5s ease-out;
+}
+
+.animate-bounce {
+    animation: bounce-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===================== TRANSITION UTILITIES ===================== */
+
+.transition-all {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-colors {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.transition-transform {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-shadow {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===================== HOVER ANIMATIONS ===================== */
+
+.btn-primary,
+.btn-secondary,
+.feature-card,
+.stat-card,
+.nav-item {
+    position: relative;
+}
+
+.btn-primary::after,
+.btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:active::after,
+.btn-secondary:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ===================== LOADING ANIMATIONS ===================== */
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--glass-bg);
+    border-top-color: var(--neon-blue);
+    border-radius: 50%;
+    animation: rotate 1s linear infinite;
+}
+
+.loader-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.loader-dots span {
+    width: 10px;
+    height: 10px;
+    background: var(--neon-blue);
+    border-radius: 50%;
+    animation: loading-dots 1.4s ease-in-out infinite;
+}
+
+.loader-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loader-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* ===================== GLASS EFFECT ANIMATIONS ===================== */
+
+.glass {
+    animation: fade-in 0.5s ease-out;
+}
+
+.glass::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(58, 184, 255, 0.1), rgba(168, 85, 247, 0.05));
+    border-radius: 16px;
+    animation: gradient-shift 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* ===================== PAGE TRANSITION ANIMATIONS ===================== */
+
+.page-enter {
+    animation: fade-in 0.5s ease-out;
+}
+
+.page-exit {
+    animation: fade-in 0.5s ease-out reverse;
+}
+
+/* ===================== ELEMENT-SPECIFIC ANIMATIONS ===================== */
+
+.feature-card {
+    animation: slide-in-up 0.6s ease-out;
+}
+
+.feature-card:nth-child(1) { animation-delay: 0.1s; }
+.feature-card:nth-child(2) { animation-delay: 0.2s; }
+.feature-card:nth-child(3) { animation-delay: 0.3s; }
+.feature-card:nth-child(4) { animation-delay: 0.4s; }
+
+.stat-card {
+    animation: slide-in-up 0.5s ease-out;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+.algorithm-section {
+    animation: slide-in-up 0.6s ease-out;
+}
+
+/* ===================== TABLE ANIMATIONS ===================== */
+
+table tbody tr {
+    animation: fade-in 0.4s ease-out;
+}
+
+table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+
+/* ===================== MODAL & POPUP ANIMATIONS ===================== */
+
+.modal-enter {
+    animation: scale-pulse 0.3s ease-out;
+}
+
+.modal-exit {
+    animation: scale-pulse 0.3s ease-out reverse;
+}
+
+/* ===================== NOTIFICATION ANIMATIONS ===================== */
+
+.notification {
+    animation: slide-in-right 0.4s ease-out;
+}
+
+.notification-exit {
+    animation: slide-in-right 0.4s ease-out reverse;
+}
+
+/* ===================== INTERACTIVE ANIMATIONS ===================== */
+
+.interactive-element {
+    cursor: pointer;
+    position: relative;
+}
+
+.interactive-element::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.interactive-element:hover::before {
+    opacity: 1;
+}
+
+/* ===================== SKELETON LOADING ===================== */
+
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--glass-bg) 50%, var(--bg-secondary) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* ===================== SMOOTH SCROLLING ===================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===================== FOCUS ANIMATIONS ===================== */
+
+button:focus,
+input:focus,
+a:focus {
+    outline: none;
+}
+
+input:focus {
+    box-shadow: 0 0 0 3px rgba(58, 184, 255, 0.3);
+}
+
+/* ===================== TEXT ANIMATIONS ===================== */
+
+.text-shimmer {
+    background: linear-gradient(90deg, var(--text-primary), var(--neon-blue), var(--text-primary));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 3s linear infinite;
+}
+
+.text-glow {
+    animation: neon-flicker 2s ease-in-out infinite;
+}
+
+/* ===================== MICRO-INTERACTIONS ===================== */
+
+.micro-interaction {
+    transition: all 0.2s ease-out;
+}
+
+.micro-interaction:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(58, 184, 255, 0.2);
+}
+
+.micro-interaction:active {
+    transform: translateY(0);
+}

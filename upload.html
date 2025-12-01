@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - InvenForecast</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-mode">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-cube"></i>
+                <span>InvenForecast</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="upload.html" class="active">Upload</a></li>
+                <li><a href="algorithms.html">Algorithms</a></li>
+                <li><a href="#" class="btn-outline" onclick="logout(); return false;">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="upload-container">
+        <div class="upload-header">
+            <h1>Upload Warehouse Data</h1>
+            <p>Import your inventory data for AI-powered forecasting</p>
+        </div>
+
+        <div class="upload-wrapper">
+            <!-- Upload Zone -->
+            <section class="upload-zone glass">
+                <div class="drag-drop-area" id="dragDropArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h2>Drag & Drop Your File</h2>
+                    <p>or</p>
+                    <button class="btn-primary">
+                        <i class="fas fa-folder-open"></i>
+                        Browse Files
+                    </button>
+                    <input type="file" id="fileInput" accept=".csv,.xlsx,.json" hidden>
+                    <p class="file-info">Supported: CSV, XLSX, JSON (Max 50MB)</p>
+                </div>
+                <div class="upload-progress hidden" id="uploadProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="progressText">Uploading... 0%</p>
+                </div>
+            </section>
+
+            <!-- File Preview -->
+            <section id="filePreview" class="file-preview glass hidden">
+                <div class="section-header">
+                    <h2>File Preview</h2>
+                    <button class="btn-small" id="clearFile">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+                <div class="preview-content">
+                    <div class="file-info-box">
+                        <i class="fas fa-file-csv"></i>
+                        <div>
+                            <h3 id="fileName"></h3>
+                            <p id="fileSize"></p>
+                        </div>
+                    </div>
+                    <table id="previewTable" class="preview-table">
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <button class="btn-primary" id="uploadBtn">
+                    <i class="fas fa-upload"></i> Upload & Process
+                </button>
+            </section>
+
+            <!-- Success Message -->
+            <section id="successMessage" class="success-message glass hidden">
+                <div class="success-content">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Upload Successful!</h2>
+                    <p>Your warehouse data has been processed and analyzed.</p>
+                    <div class="success-stats">
+                        <div class="stat">
+                            <h4>Items Processed</h4>
+                            <p id="itemsProcessed">0</p>
+                        </div>
+                        <div class="stat">
+                            <h4>Processing Time</h4>
+                            <p id="processingTime">0s</p>
+                        </div>
+                    </div>
+                    <div class="success-actions">
+                        <a href="dashboard.html" class="btn-primary">
+                            <i class="fas fa-chart-line"></i> Go to Dashboard
+                        </a>
+                        <button class="btn-secondary" id="uploadAnother">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload Another
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Upload Tips -->
+        <section class="upload-tips glass">
+            <h2>Tips for Best Results</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">📋</div>
+                    <h3>Format Requirements</h3>
+                    <p>Ensure your data includes: Item ID, Name, Category, Current Stock, Reorder Level</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🔍</div>
+                    <h3>Data Quality</h3>
+                    <p>Clean data produces better predictions. Remove duplicates and invalid entries.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">⚡</div>
+                    <h3>Processing Speed</h3>
+                    <p>Upload data in batches of 10,000 items for optimal processing speed.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-icon">🎯</div>
+                    <h3>Historical Data</h3>
+                    <p>Include 3+ months of historical data for accurate trend predictions.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>InvenForecast</h4>
+                <p>Smart inventory management powered by AI</p>
+            </div>
+            <div class="footer-section">
+                <h4>Need Help?</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 InvenForecast. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/upload.js"></script>
+    <script>
+        // Check if user is logged in
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

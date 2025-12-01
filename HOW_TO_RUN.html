@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Run InvenForecast - Visual Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0f1f 0%, #151b2f 100%);
+            color: #e0e7ff;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3ab8ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a5b4fc;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .step-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(58, 184, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3ab8ff, #a855f7);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #3ab8ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .code-block {
+            background: #0a0f1f;
+            border-left: 4px solid #14b8a6;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            color: #14b8a6;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .note {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 4px solid #fbbf24;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            color: #fbbf24;
+        }
+
+        .success {
+            background: rgba(20, 184, 166, 0.1);
+            border-left: 4px solid #14b8a6;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+            color: #14b8a6;
+        }
+
+        .option {
+            background: rgba(168, 85, 247, 0.1);
+            border-left: 4px solid #a855f7;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            color: #a855f7;
+        }
+
+        .method {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .method h3 {
+            color: #3ab8ff;
+            margin-bottom: 0.5rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, #3ab8ff, #a855f7);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(58, 184, 255, 0.4);
+        }
+
+        .copy-btn {
+            background: #14b8a6;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #3ab8ff, #a855f7);
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .quick-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(58, 184, 255, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu-card:hover {
+            border-color: #3ab8ff;
+            background: rgba(58, 184, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .menu-card h3 {
+            color: #3ab8ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-card p {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .page-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .page-card h3 {
+            color: #3ab8ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-card p {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-card a {
+            color: #14b8a6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .page-card a:hover {
+            color: #3ab8ff;
+        }
+
+        .emoji {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .check-list {
+            background: rgba(20, 184, 166, 0.1);
+            border-left: 4px solid #14b8a6;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .check-list li {
+            list-style: none;
+            margin-bottom: 0.75rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .check-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #14b8a6;
+            font-weight: bold;
+        }
+
+        .warning {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            color: #ef4444;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            background: rgba(58, 184, 255, 0.2);
+            padding: 0 0.25rem;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 How to Run InvenForecast</h1>
+        <p class="subtitle">Complete visual guide to start and use your inventory forecasting system</p>
+
+        <!-- EASIEST METHOD -->
+        <div class="step-box">
+            <h2><span class="step-number">⭐</span> EASIEST WAY (1 Click)</h2>
+            <p>Use the pre-made Windows batch file — no commands needed.</p>
+            
+            <div class="method">
+                <h3>📌 Option A: Double-Click File</h3>
+                <ol>
+                    <li>Go to folder: <span class="highlight">C:\Users\tejas\OneDrive\Desktop\sandesh\inventory-forecast-system\</span></li>
+                    <li>Find file: <span class="highlight">start-server.bat</span></li>
+                    <li><strong>Double-click it</strong></li>
+                    <li>A black command window opens (leave it running)</li>
+                    <li>Your browser opens to <span class="highlight">http://localhost:8000</span></li>
+                </ol>
+                <div class="success">
+                    ✓ No typing commands needed<br>
+                    ✓ Server starts automatically<br>
+                    ✓ Browser opens automatically
+                </div>
+            </div>
+        </div>
+
+        <!-- METHOD 2: POWERSHELL -->
+        <div class="step-box">
+            <h2><span class="step-number">2</span> Using PowerShell (Recommended for Control)</h2>
+            <p>Type commands in PowerShell to start the server.</p>
+            
+            <div class="method">
+                <h3>📌 Step-by-Step</h3>
+                <ol>
+                    <li>Right-click in the project folder</li>
+                    <li>Select: <span class="highlight">Open PowerShell window here</span></li>
+                    <li>Copy-paste this command:</li>
+                </ol>
+
+                <div class="code-block">
+                    <code>python -m http.server 8000</code>
+                </div>
+
+                <button class="copy-btn" onclick="copyCode('python -m http.server 8000')">📋 Copy Command</button>
+
+                <p style="margin-top: 1rem;">Expected output:</p>
+                <div class="code-block">
+                    <code>Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...</code>
+                </div>
+
+                <div class="success">
+                    ✓ Keep this PowerShell window open<br>
+                    ✓ Open browser to <span class="highlight">http://localhost:8000</span><br>
+                    ✓ When done, press <span class="highlight">Ctrl + C</span> to stop server
+                </div>
+            </div>
+        </div>
+
+        <!-- METHOD 3: DIRECT OPEN -->
+        <div class="step-box">
+            <h2><span class="step-number">3</span> No Server (Quick Demo)</h2>
+            <p>Open the website directly without a server (some features may be limited).</p>
+            
+            <div class="method">
+                <h3>📌 Option B: Open HTML File Directly</h3>
+                <ol>
+                    <li>Go to folder: <span class="highlight">C:\Users\tejas\OneDrive\Desktop\sandesh\inventory-forecast-system\</span></li>
+                    <li>Right-click on: <span class="highlight">index.html</span></li>
+                    <li>Select: <span class="highlight">Open with → Your Browser</span></li>
+                    <li>The website opens instantly</li>
+                </ol>
+                <div class="note">
+                    ⚠️ Note: Some features may not work perfectly without a server (charts might load slowly, file uploads may have issues)
+                </div>
+            </div>
+        </div>
+
+        <!-- WHAT PAGES TO VISIT -->
+        <div class="step-box">
+            <h2><span class="step-number">4</span> Visit These Pages</h2>
+            <p>After server is running, visit these URLs in your browser:</p>
+
+            <div class="pages-grid">
+                <div class="page-card">
+                    <span class="emoji">🏠</span>
+                    <h3>Home</h3>
+                    <p>Beautiful landing page with features</p>
+                    <a href="http://localhost:8000/">http://localhost:8000/</a>
+                </div>
+
+                <div class="page-card">
+                    <span class="emoji">📊</span>
+                    <h3>Dashboard</h3>
+                    <p>Search items, view charts, stats</p>
+                    <a href="http://localhost:8000/dashboard.html">dashboard.html</a>
+                </div>
+
+                <div class="page-card">
+                    <span class="emoji">📁</span>
+                    <h3>Upload</h3>
+                    <p>Drag-drop files, see preview</p>
+                    <a href="http://localhost:8000/upload.html">upload.html</a>
+                </div>
+
+                <div class="page-card">
+                    <span class="emoji">🧠</span>
+                    <h3>Algorithms</h3>
+                    <p>Algorithm visualizations</p>
+                    <a href="http://localhost:8000/algorithms.html">algorithms.html</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURES TO TRY -->
+        <div class="step-box">
+            <h2><span class="step-number">5</span> Features to Try</h2>
+            
+            <div class="option">
+                <strong>🔍 Search (Dashboard Page)</strong>
+                <p>Type in the search box: try "motor", "bearing", or "SKU002"</p>
+                <p>You'll see autocomplete suggestions and results!</p>
+            </div>
+
+            <div class="option">
+                <strong>📊 Charts (Dashboard Page)</strong>
+                <p>Click buttons: "7 Days", "30 Days", "90 Days"</p>
+                <p>Watch the charts update! Hover over data points for tooltips.</p>
+            </div>
+
+            <div class="option">
+                <strong>📁 Upload (Upload Page)</strong>
+                <p>Try dragging a CSV or JSON file into the upload area</p>
+                <p>You'll see a file preview and animated progress bar</p>
+            </div>
+
+            <div class="option">
+                <strong>📱 Mobile View</strong>
+                <p>Press <span class="highlight">F12</span> on keyboard, click phone icon (top-left)</p>
+                <p>Test the responsive design on different screen sizes</p>
+            </div>
+        </div>
+
+        <!-- TROUBLESHOOTING -->
+        <div class="step-box">
+            <h2><span class="step-number">⚠️</span> If Something Goes Wrong</h2>
+
+            <div class="warning">
+                <strong>❌ Error: "ERR_CONNECTION_REFUSED"</strong>
+                <p>PowerShell window might not have started the server</p>
+                <p><strong>Fix:</strong> Make sure the black PowerShell window is running. If closed, run again.</p>
+            </div>
+
+            <div class="warning">
+                <strong>❌ Charts not showing?</strong>
+                <p>May need internet for CDN resources</p>
+                <p><strong>Fix:</strong> Press Ctrl+Shift+R (hard refresh), check your internet</p>
+            </div>
+
+            <div class="warning">
+                <strong>❌ Port 8000 already in use?</strong>
+                <p>Another program is using port 8000</p>
+                <p><strong>Fix:</strong> Use port 8080 instead:</p>
+                <div class="code-block">
+                    <code>python -m http.server 8080</code>
+                </div>
+                <p>Then visit: <span class="highlight">http://localhost:8080</span></p>
+            </div>
+
+            <div class="warning">
+                <strong>❌ "Python is not recognized"?</strong>
+                <p>Python is not installed on your computer</p>
+                <p><strong>Fix:</strong> Install Python from <a href="https://www.python.org/downloads/" style="color: #3ab8ff;">python.org</a></p>
+            </div>
+        </div>
+
+        <!-- QUICK CHECKLIST -->
+        <div class="step-box">
+            <h2><span class="step-number">✓</span> Quick Checklist</h2>
+            <ul class="check-list">
+                <li>Server is running (black PowerShell window open OR double-clicked start-server.bat)</li>
+                <li>Browser shows no red errors (check Ctrl+Shift+R hard refresh)</li>
+                <li>Home page loads with blue/purple neon theme</li>
+                <li>Dashboard page has search bar and charts</li>
+                <li>Upload page has drag-drop area</li>
+                <li>Click buttons and animations work smoothly</li>
+                <li>Mobile view works (press F12, click phone icon)</li>
+            </ul>
+        </div>
+
+        <!-- DOCUMENTATION FILES -->
+        <div class="step-box">
+            <h2><span class="step-number">📖</span> More Help Available</h2>
+            <p>These files have detailed information (open in a text editor or browser):</p>
+
+            <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                <div class="method">
+                    <h3><span class="file-icon">📄</span> START_HERE.txt</h3>
+                    <p>Quick reference with all commands and tips</p>
+                </div>
+                <div class="method">
+                    <h3><span class="file-icon">📚</span> README.md</h3>
+                    <p>Complete technical documentation</p>
+                </div>
+                <div class="method">
+                    <h3><span class="file-icon">⚙️</span> INSTALLATION.md</h3>
+                    <p>Detailed setup and customization guide</p>
+                </div>
+                <div class="method">
+                    <h3><span class="file-icon">🎯</span> QUICK_REFERENCE.md</h3>
+                    <p>Quick lookup for common tasks</p>
+                </div>
+                <div class="method">
+                    <h3><span class="file-icon">📖</span> GETTING_STARTED.html</h3>
+                    <p>Interactive tutorial (open in browser)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUMMARY -->
+        <div class="step-box" style="background: linear-gradient(135deg, rgba(58, 184, 255, 0.1), rgba(168, 85, 247, 0.1)); border-color: rgba(58, 184, 255, 0.5);">
+            <h2 style="text-align: center; margin-bottom: 1.5rem;">🎉 You're Ready!</h2>
+            
+            <div style="text-align: center;">
+                <h3 style="color: #14b8a6; margin-bottom: 1rem;">Pick Your Method:</h3>
+                <div class="quick-menu">
+                    <div class="menu-card">
+                        <h3>⭐ Easiest</h3>
+                        <p>Double-click start-server.bat</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>⚙️ Manual</h3>
+                        <p>Type in PowerShell</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>⚡ Fastest</h3>
+                        <p>Open index.html directly</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="font-size: 1.2rem; color: #3ab8ff; margin-bottom: 1rem;">
+                    ✨ Your InvenForecast dashboard is ready to use!
+                </p>
+                <p style="color: #a5b4fc;">
+                    Start the server, open your browser, and explore all 4 pages.
+                </p>
+            </div>
+        </div>
+
+        <footer>
+            <p>InvenForecast v1.0.0 | Built with modern web technologies | December 2025</p>
+            <p>All files are at: C:\Users\tejas\OneDrive\Desktop\sandesh\inventory-forecast-system\</p>
+        </footer>
+    </div>
+
+    <script>
+        function copyCode(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Command copied to clipboard!\n\nNow paste it in PowerShell with Ctrl+V and press Enter.');
+            });
+        }
+    </script>
+</body>
+</html>

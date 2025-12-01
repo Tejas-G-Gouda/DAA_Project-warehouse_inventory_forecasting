@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - InvenForecast</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0f1f 0%, #151b2f 100%);
+            color: #e0e7ff;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #3ab8ff, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #a5b4fc;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            color: #3ab8ff;
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(58, 184, 255, 0.3);
+        }
+        
+        h3 {
+            color: #14b8a6;
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        p {
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+            color: #a5b4fc;
+        }
+        
+        code {
+            background: rgba(58, 184, 255, 0.1);
+            border: 1px solid #3ab8ff;
+            border-radius: 6px;
+            padding: 0.25rem 0.75rem;
+            font-family: 'Courier New', monospace;
+            color: #3ab8ff;
+            font-size: 0.9rem;
+        }
+        
+        pre {
+            background: #0a0f1f;
+            border: 1px solid rgba(58, 184, 255, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: #14b8a6;
+            display: block;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3ab8ff, #a855f7);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 30px rgba(58, 184, 255, 0.4);
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(58, 184, 255, 0.6);
+        }
+        
+        .feature-box {
+            background: rgba(58, 184, 255, 0.1);
+            border-left: 4px solid #3ab8ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .warning-box {
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 4px solid #fbbf24;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .success-box {
+            background: rgba(20, 184, 166, 0.1);
+            border-left: 4px solid #14b8a6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .nav-links a {
+            color: #3ab8ff;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #3ab8ff;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: #3ab8ff;
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th {
+            background: rgba(58, 184, 255, 0.2);
+            padding: 0.75rem;
+            text-align: left;
+            color: #3ab8ff;
+            font-weight: 600;
+            border-bottom: 2px solid #3ab8ff;
+        }
+        
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        tr:hover {
+            background: rgba(58, 184, 255, 0.05);
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Getting Started with InvenForecast</h1>
+        <p class="subtitle">Complete guide to run and explore the AI-Powered Inventory Forecasting System</p>
+        
+        <h2><span class="emoji">⚡</span> Quick Start (30 seconds)</h2>
+        
+        <div class="success-box">
+            <h3>Fastest Way - Using Python</h3>
+            <ol>
+                <li>Open PowerShell in the project folder</li>
+                <li>Run: <code>python -m http.server 8000</code></li>
+                <li>Visit: <code>http://localhost:8000</code></li>
+            </ol>
+        </div>
+        
+        <h2><span class="emoji">📋</span> System Requirements</h2>
+        <ul>
+            <li><strong>Modern Web Browser</strong>: Chrome, Firefox, Safari, Edge (latest versions)</li>
+            <li><strong>Python</strong> (optional): For local server - <a href="https://www.python.org/downloads/" target="_blank">Download here</a></li>
+            <li><strong>Internet Connection</strong>: For loading CDN resources (Charts.js, Font Awesome)</li>
+        </ul>
+        
+        <h2><span class="emoji">🎯</span> Installation Methods</h2>
+        
+        <h3>Method 1: Direct Browser (No Setup)</h3>
+        <ol>
+            <li>Open <code>index.html</code> directly in your browser</li>
+            <li>No server needed - works offline after loading</li>
+            <li>Some features may have limitations</li>
+        </ol>
+        
+        <h3>Method 2: Python HTTP Server (Recommended)</h3>
+        <pre><code>cd path/to/inventory-forecast-system
+python -m http.server 8000
+# Then open: http://localhost:8000</code></pre>
+        
+        <h3>Method 3: Node.js http-server</h3>
+        <pre><code>npm install -g http-server
+cd path/to/inventory-forecast-system
+http-server -p 8000
+# Then open: http://localhost:8000</code></pre>
+        
+        <h3>Method 4: Using start-server.bat (Windows)</h3>
+        <p>Double-click <code>start-server.bat</code> in the project folder</p>
+        
+        <h2><span class="emoji">🌐</span> Access the Application</h2>
+        <table>
+            <tr>
+                <th>Page</th>
+                <th>URL</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Homepage</td>
+                <td><code>http://localhost:8000</code></td>
+                <td>Landing page with hero section</td>
+            </tr>
+            <tr>
+                <td>Dashboard</td>
+                <td><code>http://localhost:8000/dashboard.html</code></td>
+                <td>Main analytics and search</td>
+            </tr>
+            <tr>
+                <td>Upload</td>
+                <td><code>http://localhost:8000/upload.html</code></td>
+                <td>File upload page</td>
+            </tr>
+            <tr>
+                <td>Algorithms</td>
+                <td><code>http://localhost:8000/algorithms.html</code></td>
+                <td>Algorithm explanations</td>
+            </tr>
+        </table>
+        
+        <h2><span class="emoji">🎨</span> Features to Explore</h2>
+        
+        <div class="feature-box">
+            <h3>1. Home Page</h3>
+            <ul>
+                <li>Animated hero section with neon effects</li>
+                <li>Feature cards with glassmorphism design</li>
+                <li>Smooth scroll animations</li>
+                <li>Responsive layout</li>
+            </ul>
+        </div>
+        
+        <div class="feature-box">
+            <h3>2. Dashboard</h3>
+            <ul>
+                <li>Real-time statistics cards</li>
+                <li>Fast search with autocomplete (10+ items)</li>
+                <li>Interactive forecast chart (Chart.js)</li>
+                <li>Shortage heatmap visualization</li>
+                <li>Items table with status indicators</li>
+                <li>Responsive sidebar navigation</li>
+            </ul>
+        </div>
+        
+        <div class="feature-box">
+            <h3>3. Upload Page</h3>
+            <ul>
+                <li>Drag-and-drop file upload</li>
+                <li>Support for CSV, XLSX, JSON</li>
+                <li>File preview with data inspection</li>
+                <li>Progress indicator animation</li>
+                <li>Success message with statistics</li>
+                <li>Best practices tips section</li>
+            </ul>
+        </div>
+        
+        <div class="feature-box">
+            <h3>4. Algorithms Page</h3>
+            <ul>
+                <li>Binary Search Tree visualization</li>
+                <li>AVL Tree balancing animation</li>
+                <li>Sorting algorithms visualization</li>
+                <li>Dynamic programming heatmap</li>
+                <li>Comparison table with complexities</li>
+                <li>Algorithm specifications</li>
+            </ul>
+        </div>
+        
+        <h2><span class="emoji">🔍</span> Explore Interactive Features</h2>
+        
+        <h3>Search Functionality</h3>
+        <p>Try the dashboard search:</p>
+        <ol>
+            <li>Go to Dashboard</li>
+            <li>Type in the search box (try: "motor", "bearing", "SKU001")</li>
+            <li>See real-time suggestions and results</li>
+        </ol>
+        
+        <h3>Chart Interactions</h3>
+        <p>In the Forecast Trends section:</p>
+        <ol>
+            <li>Click "7 Days", "30 Days", "90 Days" buttons</li>
+            <li>See chart data update dynamically</li>
+            <li>Hover over points for tooltips</li>
+        </ol>
+        
+        <h3>File Upload</h3>
+        <p>In the Upload page:</p>
+        <ol>
+            <li>Drag a CSV/JSON file or click to browse</li>
+            <li>See file preview</li>
+            <li>Click "Upload & Process"</li>
+            <li>Watch the animated progress bar</li>
+        </ol>
+        
+        <h2><span class="emoji">🎬</span> Demo Data</h2>
+        <p>The application includes pre-loaded sample data:</p>
+        <ul>
+            <li>10 inventory items with realistic stock levels</li>
+            <li>Categories: Machinery, Components, Materials, Electronics</li>
+            <li>Status: Optimal, Warning, Critical</li>
+            <li>Forecast data for visualizations</li>
+        </ul>
+        
+        <h2><span class="emoji">🛠️</span> Customization Tips</h2>
+        
+        <h3>Change Colors</h3>
+        <p>Edit CSS variables in <code>css/styles.css</code>:</p>
+        <pre><code>:root {
+    --neon-blue: #3ab8ff;
+    --neon-purple: #a855f7;
+    --neon-teal: #14b8a6;
+}</code></pre>
+        
+        <h3>Modify Sample Data</h3>
+        <p>Edit sample items in <code>js/dashboard.js</code>:</p>
+        <pre><code>const sampleItems = [
+    { id: 'SKU001', name: 'Product Name', ... }
+];</code></pre>
+        
+        <h3>Update Company Name</h3>
+        <p>Find "InvenForecast" and replace with your company name in:</p>
+        <ul>
+            <li><code>index.html</code></li>
+            <li><code>dashboard.html</code></li>
+            <li><code>upload.html</code></li>
+            <li><code>algorithms.html</code></li>
+        </ul>
+        
+        <h2><span class="emoji">❓</span> Troubleshooting</h2>
+        
+        <div class="warning-box">
+            <h3>Port Already in Use</h3>
+            <p>If port 8000 is busy, use a different port:</p>
+            <code>python -m http.server 8080</code>
+        </div>
+        
+        <div class="warning-box">
+            <h3>Charts Not Displaying</h3>
+            <ul>
+                <li>Check internet connection (CDN resources needed)</li>
+                <li>Clear browser cache (Ctrl+Shift+Delete)</li>
+                <li>Open browser DevTools (F12) and check console for errors</li>
+            </ul>
+        </div>
+        
+        <div class="warning-box">
+            <h3>Styles Look Wrong</h3>
+            <ul>
+                <li>Hard refresh: Ctrl+Shift+R (Cmd+Shift+R on Mac)</li>
+                <li>Verify CSS file paths</li>
+                <li>Check browser compatibility</li>
+            </ul>
+        </div>
+        
+        <h2><span class="emoji">📚</span> Project Structure</h2>
+        <pre><code>inventory-forecast-system/
+├── index.html           # Homepage
+├── dashboard.html       # Main dashboard
+├── upload.html          # File upload
+├── algorithms.html      # Algorithm showcase
+├── css/
+│   ├── styles.css       # Main styles
+│   └── animations.css   # Animations
+├── js/
+│   ├── main.js          # Global utilities
+│   ├── dashboard.js     # Dashboard logic
+│   ├── charts.js        # Chart configurations
+│   └── upload.js        # Upload handling
+├── README.md            # Documentation
+└── start-server.bat     # Windows server starter</code></pre>
+        
+        <h2><span class="emoji">🚀</span> Next Steps</h2>
+        <ol>
+            <li>Explore all four main pages</li>
+            <li>Try interactive features (search, charts, upload)</li>
+            <li>Customize colors and company name</li>
+            <li>Review the code structure</li>
+            <li>Integrate with your backend API</li>
+            <li>Deploy to your hosting provider</li>
+        </ol>
+        
+        <h2><span class="emoji">📞</span> Support Resources</h2>
+        <ul>
+            <li><strong>Chart.js Docs</strong>: <a href="https://www.chartjs.org/docs/latest/" target="_blank">chartjs.org</a></li>
+            <li><strong>Font Awesome Icons</strong>: <a href="https://fontawesome.com/search" target="_blank">fontawesome.com</a></li>
+            <li><strong>CSS Tricks</strong>: <a href="https://css-tricks.com" target="_blank">css-tricks.com</a></li>
+            <li><strong>MDN Web Docs</strong>: <a href="https://developer.mozilla.org" target="_blank">mdn.org</a></li>
+        </ul>
+        
+        <h2><span class="emoji">✅</span> Verification Checklist</h2>
+        <p>After starting the server, verify:</p>
+        <ul>
+            <li>✓ Homepage loads with hero section and animations</li>
+            <li>✓ Navigation menu is responsive</li>
+            <li>✓ Dashboard displays stats cards and search</li>
+            <li>✓ Charts render properly</li>
+            <li>✓ Upload page has drag-and-drop</li>
+            <li>✓ Algorithms page shows visualizations</li>
+            <li>✓ All styling matches the neon theme</li>
+            <li>✓ Mobile view is responsive</li>
+        </ul>
+        
+        <div class="nav-links">
+            <a href="index.html">← Go to Homepage</a>
+            <a href="dashboard.html">Dashboard →</a>
+        </div>
+        
+        <hr style="border: 1px solid rgba(255, 255, 255, 0.1); margin: 2rem 0;">
+        <p style="text-align: center; color: #6b7280; font-size: 0.9rem;">
+            Built with ❤️ using modern web technologies | Version 1.0.0 | December 2025
+        </p>
+    </div>
+</body>
+</html>
