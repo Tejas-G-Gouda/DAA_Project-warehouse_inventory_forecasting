@@ -5,6 +5,22 @@
     box-sizing: border-box;
 }
 
+/* Inline form error styling (added for purchase/restock forms) */
+.form-error {
+    color: var(--neon-pink);
+    margin-top: 8px;
+    font-size: 0.92rem;
+    display: none;
+}
+.form-error.active {
+    display: block;
+}
+
+.input-error {
+    border-color: var(--neon-pink) !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 110, 0.12) !important;
+}
+
 :root {
     --bg-primary: #0a0f1f;
     --bg-secondary: #151b2f;

@@ -2,6 +2,17 @@
 
 let forecastChart = null;
 let heatmapChart = null;
+let categoryChart = null;
+
+function loadItemsForCharts() {
+    try {
+        const raw = localStorage.getItem('itemsList');
+        if (raw) return JSON.parse(raw);
+    } catch (e) {
+        console.warn('charts.js: failed to load items from localStorage', e);
+    }
+    return null;
+}
 
 // Generate sample data for 7, 30, and 90 days
 function generateForecastData(days) {
@@ -169,9 +180,52 @@ if (forecastCtx) {
     });
 }
 
+// Expose updateCharts globally so dashboard can call it when items change
+window.updateCharts = function(days = 7) {
+    // regenerate forecast (still synthetic)
+    if (forecastChart) {
+        const d = generateForecastData(days);
+        forecastChart.data.labels = d.labels;
+        forecastChart.data.datasets[0].data = d.optimalData;
+        forecastChart.data.datasets[1].data = d.warningData;
+        forecastChart.data.datasets[2].data = d.criticalData;
+        forecastChart.update();
+    }
+
+    // update heatmap based on items
+    const items = loadItemsForCharts();
+    if (heatmapChart && items) {
+        // compute shortage risk per category as percentage of items in category that are warning/critical
+        const categories = Array.from(new Set(items.map(i => i.category)));
+        const labels = categories;
+        const data = categories.map(cat => {
+            const subset = items.filter(it => it.category === cat);
+            if (subset.length === 0) return 0;
+            const atRisk = subset.filter(it => it.status === 'warning' || it.status === 'critical').length;
+            return Math.round((atRisk / subset.length) * 100);
+        });
+
+        heatmapChart.data.labels = labels;
+        heatmapChart.data.datasets[0].data = data;
+        heatmapChart.data.datasets[0].backgroundColor = data.map(val => val > 70 ? '#ef4444' : (val > 50 ? '#fbbf24' : '#14b8a6'));
+        heatmapChart.data.datasets[0].borderColor = data.map(val => val > 70 ? '#dc2626' : (val > 50 ? '#d97706' : '#0d9488'));
+        heatmapChart.update();
+    }
+
+    // update category chart
+    if (categoryChart && items) {
+        const categories = Array.from(new Set(items.map(i => i.category)));
+        const counts = categories.map(cat => items.filter(it => it.category === cat).length);
+        categoryChart.data.labels = categories;
+        categoryChart.data.datasets[0].data = counts;
+        categoryChart.update();
+    }
+}
+
 // Shortage Heatmap Chart (Bar Chart)
 const heatmapCtx = document.getElementById('heatmapChart');
 if (heatmapCtx) {
+    // Initialize with placeholder values; updateCharts() will overwrite using localStorage
     const heatmapLabels = ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'];
     const heatmapData = [25, 45, 60, 80, 35];
     
@@ -272,7 +326,7 @@ if (heatmapCtx) {
 function createCategoryChart() {
     const categoryCtx = document.getElementById('categoryChart');
     if (categoryCtx) {
-        new Chart(categoryCtx, {
+        categoryChart = new Chart(categoryCtx, {
             type: 'doughnut',
             data: {
                 labels: ['Machinery', 'Components', 'Materials', 'Electronics', 'Miscellaneous'],
@@ -312,6 +366,12 @@ function createCategoryChart() {
 }
 
 createCategoryChart();
+
+// Run initial chart update from localStorage items if available
+window.addEventListener('load', function() {
+    // call with default 7 days
+    if (typeof window.updateCharts === 'function') window.updateCharts(7);
+});
 
 // ===================== CHART ANIMATIONS =====================
 

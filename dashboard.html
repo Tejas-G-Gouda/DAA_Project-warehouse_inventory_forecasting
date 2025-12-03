@@ -135,6 +135,55 @@
                 </div>
             </section>
 
+            <!-- Inventory Actions: Purchase & Restock -->
+            <section id="actions-section" class="actions-section glass">
+                <div class="section-header">
+                    <h2>Inventory Actions</h2>
+                    <span class="section-icon">🔁</span>
+                </div>
+                <div class="actions-grid">
+                    <div class="action-card glass">
+                        <h3>Purchase</h3>
+                        <form id="purchaseForm">
+                            <div class="form-row">
+                                <label for="purchaseCustomer">Customer Name</label>
+                                <input type="text" id="purchaseCustomer" placeholder="Customer name">
+                                    <div class="form-error" id="purchaseError"></div>
+                            </div>
+                            <div class="form-row">
+                                <label for="purchaseItemSelect">Select Item</label>
+                                <select id="purchaseItemSelect" class="item-select"></select>
+                            </div>
+                            <div class="form-row">
+                                <label for="purchaseQty">Quantity</label>
+                                <input type="number" min="1" id="purchaseQty" placeholder="Quantity">
+                            </div>
+                            <div class="form-row">
+                                <button class="btn-primary" type="submit">Complete Purchase</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="action-card glass">
+                        <h3>Restock</h3>
+                        <form id="restockForm">
+                            <div class="form-row">
+                                <label for="restockItemSelect">Select Item</label>
+                                <select id="restockItemSelect" class="item-select"></select>
+                                    <div class="form-error" id="restockError"></div>
+                            </div>
+                            <div class="form-row">
+                                <label for="restockQty">Quantity</label>
+                                <input type="number" min="1" id="restockQty" placeholder="Quantity">
+                            </div>
+                            <div class="form-row">
+                                <button class="btn-primary" type="submit">Restock Item</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
             <!-- Search Section -->
             <section id="search-section" class="search-section glass">
                 <div class="section-header">

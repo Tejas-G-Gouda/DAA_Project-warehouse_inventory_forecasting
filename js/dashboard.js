@@ -14,7 +14,7 @@ function logout() {
 }
 
 // Sample Data
-const sampleItems = [
+const defaultItems = [
     { id: 'SKU001', name: 'Industrial Motor', category: 'Machinery', stock: 45, minStock: 10, status: 'optimal' },
     { id: 'SKU002', name: 'Steel Bearing', category: 'Components', stock: 8, minStock: 15, status: 'critical' },
     { id: 'SKU003', name: 'Copper Wire', category: 'Materials', stock: 156, minStock: 50, status: 'optimal' },
@@ -26,6 +26,169 @@ const sampleItems = [
     { id: 'SKU009', name: 'Stainless Steel Plate', category: 'Materials', stock: 92, minStock: 50, status: 'optimal' },
     { id: 'SKU010', name: 'Precision Bearing', category: 'Components', stock: 3, minStock: 5, status: 'critical' }
 ];
+
+// Items will be loaded from localStorage if available, otherwise use defaults
+function loadItems() {
+    try {
+        const raw = localStorage.getItem('itemsList');
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) return parsed;
+        }
+    } catch (e) {
+        console.warn('Failed to load items from localStorage', e);
+    }
+    // clone defaultItems to avoid accidental mutation of the constant
+    const clone = JSON.parse(JSON.stringify(defaultItems));
+    localStorage.setItem('itemsList', JSON.stringify(clone));
+    return clone;
+}
+
+function saveItems(list) {
+    localStorage.setItem('itemsList', JSON.stringify(list));
+}
+
+let items = loadItems();
+
+// Utility: refresh UI elements that depend on items
+function refreshAllItemViews() {
+    populateItemsTable();
+    populateDropdowns();
+    displaySearchResults(items.slice(0, 3));
+    // notify charts to refresh if needed
+    updateCharts(7);
+}
+
+// Helpers for inline form errors
+function showFormError(containerId, message) {
+    const el = document.getElementById(containerId);
+    if (!el) {
+        alert(message);
+        return;
+    }
+    el.textContent = message;
+    el.classList.add('active');
+}
+
+function clearFormError(containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.textContent = '';
+    el.classList.remove('active');
+}
+
+function markInputError(el, flag) {
+    if (!el) return;
+    if (flag) el.classList.add('input-error'); else el.classList.remove('input-error');
+}
+
+// Populate purchase/restock dropdowns
+function populateDropdowns() {
+    const optionHtml = items.map(it => `<option value="${it.id}">${it.name} (${it.id}) — ${it.stock} units</option>`).join('');
+
+    const purchaseSelect = document.getElementById('purchaseItemSelect');
+    const restockSelect = document.getElementById('restockItemSelect');
+    if (purchaseSelect) purchaseSelect.innerHTML = optionHtml;
+    if (restockSelect) restockSelect.innerHTML = optionHtml;
+
+    // Update any other selects across the site that use the shared class
+    const otherSelects = document.querySelectorAll('select.item-select');
+    otherSelects.forEach(s => s.innerHTML = optionHtml);
+}
+
+// Handle purchase action
+function handlePurchase(e) {
+    e && e.preventDefault();
+    const customerInput = document.getElementById('purchaseCustomer');
+    const itemSelect = document.getElementById('purchaseItemSelect');
+    const qtyInput = document.getElementById('purchaseQty');
+
+    // clear previous errors
+    clearFormError('purchaseError');
+    markInputError(customerInput, false);
+    markInputError(qtyInput, false);
+
+    if (!customerInput || !itemSelect || !qtyInput) return;
+
+    const customer = customerInput.value.trim();
+    if (!customer) {
+        showFormError('purchaseError', 'Customer name is required.');
+        markInputError(customerInput, true);
+        return;
+    }
+
+    const itemId = itemSelect.value;
+    const qty = parseInt(qtyInput.value, 10);
+    if (!itemId || isNaN(qty) || qty <= 0) {
+        showFormError('purchaseError', 'Please enter a valid purchase quantity (> 0).');
+        markInputError(qtyInput, true);
+        return;
+    }
+
+    const idx = items.findIndex(it => it.id === itemId);
+    if (idx === -1) {
+        showFormError('purchaseError', 'Selected item not found.');
+        return;
+    }
+
+    if (qty > items[idx].stock) {
+        showFormError('purchaseError', 'Not enough stock.');
+        markInputError(qtyInput, true);
+        return;
+    }
+
+    // Perform purchase
+    items[idx].stock -= qty;
+    // update status based on minStock
+    items[idx].status = items[idx].stock <= items[idx].minStock ? (items[idx].stock === 0 ? 'critical' : 'warning') : 'optimal';
+
+    saveItems(items);
+    refreshAllItemViews();
+
+    // success
+    alert('Purchase recorded successfully.');
+    // clear form
+    qtyInput.value = '';
+    customerInput.value = '';
+    clearFormError('purchaseError');
+}
+
+// Handle restock action
+function handleRestock(e) {
+    e && e.preventDefault();
+    const itemSelect = document.getElementById('restockItemSelect');
+    const qtyInput = document.getElementById('restockQty');
+
+    // clear previous errors
+    clearFormError('restockError');
+    markInputError(qtyInput, false);
+
+    if (!itemSelect || !qtyInput) return;
+
+    const itemId = itemSelect.value;
+    const qty = parseInt(qtyInput.value, 10);
+    if (!itemId || isNaN(qty) || qty <= 0) {
+        showFormError('restockError', 'Please enter a valid restock quantity (> 0).');
+        markInputError(qtyInput, true);
+        return;
+    }
+
+    const idx = items.findIndex(it => it.id === itemId);
+    if (idx === -1) {
+        showFormError('restockError', 'Selected item not found.');
+        return;
+    }
+
+    items[idx].stock += qty;
+    items[idx].status = items[idx].stock <= items[idx].minStock ? 'warning' : 'optimal';
+
+    saveItems(items);
+    refreshAllItemViews();
+
+    alert('Item restocked successfully.');
+    qtyInput.value = '';
+    clearFormError('restockError');
+}
 
 // Search Functionality
 const searchInput = document.getElementById('searchInput');
@@ -49,7 +212,7 @@ function handleSearch(e) {
     }
     
     // Get suggestions
-    const suggestions = sampleItems.filter(item =>
+    const suggestions = items.filter(item =>
         item.name.toLowerCase().includes(query) ||
         item.id.toLowerCase().includes(query) ||
         item.category.toLowerCase().includes(query)
@@ -65,7 +228,8 @@ function handleSearch(e) {
 }
 
 function selectSuggestion(id) {
-    searchInput.value = sampleItems.find(item => item.id === id).name;
+    const found = items.find(item => item.id === id);
+    if (found) searchInput.value = found.name;
     handleSearch({ target: searchInput });
 }
 
@@ -135,10 +299,11 @@ statCards.forEach(card => {
     });
 });
 
-// Populate sample items table
-const itemsTableBody = document.getElementById('itemsTableBody');
-if (itemsTableBody) {
-    itemsTableBody.innerHTML = sampleItems.slice(0, 5).map(item =>
+// Populate items table from current items list
+function populateItemsTable() {
+    const itemsTableBody = document.getElementById('itemsTableBody');
+    if (!itemsTableBody) return;
+    itemsTableBody.innerHTML = items.slice(0, 10).map(item =>
         `<tr>
             <td>${item.id}</td>
             <td>${item.name}</td>
@@ -149,6 +314,10 @@ if (itemsTableBody) {
         </tr>`
     ).join('');
 }
+
+// initial populate when script loads
+populateItemsTable();
+populateDropdowns();
 
 // Function to update charts (called when forecast range changes)
 function updateCharts(days) {
@@ -216,5 +385,10 @@ updateLastUpdated();
 // Initialize Dashboard on page load
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Dashboard loaded successfully');
-    displaySearchResults(sampleItems.slice(0, 3));
+    displaySearchResults(items.slice(0, 3));
+    // wire up purchase/restock form buttons if present
+    const purchaseForm = document.getElementById('purchaseForm');
+    if (purchaseForm) purchaseForm.addEventListener('submit', handlePurchase);
+    const restockForm = document.getElementById('restockForm');
+    if (restockForm) restockForm.addEventListener('submit', handleRestock);
 });
